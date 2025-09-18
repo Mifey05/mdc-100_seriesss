@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                 const Text('Orbital Trader'),
               ],
             ),
-            const SizedBox(height: 120.0),
+            const SizedBox(height: 16.0),
             // TODO: Remove filled: true values (103)
             TextField(
               controller: _usernameController,
@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                 labelText: 'Username',
               ),
             ),
-            const SizedBox(height: 120.0),
+            const SizedBox(height: 16.0),
             TextField(
               controller: _passwordController,
               decoration: const InputDecoration(

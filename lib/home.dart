@@ -31,8 +31,10 @@ class HomePage extends StatelessWidget {
     }
 
     final ThemeData theme = Theme.of(context);
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
-      locale: Localizations.localeOf(context).toString()
+    final NumberFormat formatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp',
+      decimalDigits: 0,
     );
 
     return products.map((product) {
@@ -40,25 +42,29 @@ class HomePage extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            AspectRatio(
-              aspectRatio: 11/18,
-              child: Image.asset(
-                product.assetName,
-                // package: product.assetPackage, Unused
-                fit: BoxFit.fitWidth,
-                ),
-            ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+              child: AspectRatio(
+                aspectRatio: 1.0,
+                child: Image.asset(
+                  product.assetName,
+                  // package: product.assetPackage, Unused
+                  fit: BoxFit.cover,
+                  ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
                       product.name,
                       style: theme.textTheme.titleLarge,
                       maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height:8.0),
                     Text(
@@ -67,7 +73,6 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
             ),
           ],
         ),
@@ -114,10 +119,11 @@ class HomePage extends StatelessWidget {
         ),
       ),
       // TODO: Add a grid view (102)
-      body: GridView.count(
-        crossAxisCount: 2,
+      body: GridView.extent(
+        maxCrossAxisExtent: 300,
         padding: const EdgeInsets.all(16.0),
-        childAspectRatio: 8.0/9.0,
+        mainAxisSpacing: 16.0,
+        crossAxisSpacing: 16.0,
         children: _buildGridCards(context)
       ),
       // TODO: Set resizeToAvoidBottomInset (101)
