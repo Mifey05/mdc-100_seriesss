@@ -14,7 +14,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'supplemental/asymmetric_view.dart';
 import 'model/product.dart';
 import 'model/products_repository.dart';
 
@@ -40,6 +40,7 @@ class HomePage extends StatelessWidget {
     return products.map((product) {
       return Card(
         clipBehavior: Clip.antiAlias,
+        elevation: 0.0,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
@@ -57,12 +58,14 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
                       product.name,
-                      style: theme.textTheme.titleLarge,
+                      style: theme.textTheme.labelLarge,
+                      softWrap: false,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -119,12 +122,8 @@ class HomePage extends StatelessWidget {
         ),
       ),
       // TODO: Add a grid view (102)
-      body: GridView.extent(
-        maxCrossAxisExtent: 300,
-        padding: const EdgeInsets.all(16.0),
-        mainAxisSpacing: 16.0,
-        crossAxisSpacing: 16.0,
-        children: _buildGridCards(context)
+      body: AsymmetricView(
+        products: ProductsRepository.loadProducts(Category.all),
       ),
       // TODO: Set resizeToAvoidBottomInset (101)
       resizeToAvoidBottomInset: false,
