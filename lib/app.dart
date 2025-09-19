@@ -14,15 +14,28 @@
 
 import 'package:flutter/material.dart';
 import 'supplemental/cut_corners_border.dart';
-
+import 'backdrop.dart';
 import 'home.dart';
 import 'login.dart';
 import 'colors.dart';
+import 'model/product.dart';
+import 'category_menu_page.dart';
 
-// TODO: Convert ShrineApp to stateful widget (104)
-class ShrineApp extends StatelessWidget {
+class ShrineApp extends StatefulWidget {
   const ShrineApp({Key? key}) : super(key: key);
 
+  @override
+  State<ShrineApp> createState() => _ShrineAppState();
+}
+
+class _ShrineAppState extends State<ShrineApp> {
+  Category _currentCategory = Category.all;
+
+  void _onCategoryTap(Category category) {
+    setState((){
+      _currentCategory = category;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,19 +43,22 @@ class ShrineApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (BuildContext context) => const LoginPage(),
-        // TODO: Change to a Backdrop with a HomePage frontLayer (104)
-        '/': (BuildContext context) => const HomePage(),
-        // TODO: Make currentCategory field take _currentCategory (104)
-        // TODO: Pass _currentCategory for frontLayer (104)
-        // TODO: Change backLayer field value to CategoryMenuPage (104)
+        '/': (BuildContext context) => Backdrop(
+        currentCategory: _currentCategory,
+        frontLayer: HomePage(category: _currentCategory),
+        backLayer: CategoryMenuPage(
+          currentCategory: _currentCategory,
+          onCategoryTap: _onCategoryTap,  
+          ),
+        frontTitle: const Text('Orbital Trader'),
+        backTitle: const Text('Menu'),
+        ),
       },
-      // TODO: Customize the theme (103)
       theme: _kRimworldTheme,
     );
   }
 }
 
-// TODO: Build a Shrine Theme (103)
 final ThemeData _kRimworldTheme = _buildRimworldTheme();
 
 ThemeData _buildRimworldTheme() {
@@ -58,6 +74,10 @@ ThemeData _buildRimworldTheme() {
     textSelectionTheme: const TextSelectionThemeData(
       selectionColor: kRimworld2,
     ),
+    appBarTheme: const AppBarTheme(
+      foregroundColor: kRimworld3,
+      backgroundColor: kRimworld1,
+    ),
     inputDecorationTheme: const InputDecorationTheme(
       border: CutCornersBorder(),
       focusedBorder: CutCornersBorder(
@@ -72,7 +92,6 @@ ThemeData _buildRimworldTheme() {
     ),
   );
 }
-// TODO: Build a Shrine Text Theme (103)
 TextTheme _buildRimworldTextTheme(TextTheme base) {
   return base
       .copyWith(
