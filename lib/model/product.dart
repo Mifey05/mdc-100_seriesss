@@ -15,6 +15,8 @@
 enum Category {
   all,
   pawn,
+  mech,
+  entity,
 }
 
 class Product {
